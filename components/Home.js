@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { fireAuth } from "../providers/firebase";
 
 export default class Home extends Component {
@@ -8,11 +8,11 @@ export default class Home extends Component {
 
     this.state = {
       user: fireAuth.user,
-      photoURL: '',
-      displayName: ''
-    }
+      photoURL: "",
+      displayName: ""
+    };
   }
-  
+
   // Picks up user login & updates state.
   componentDidMount = () => {
     fireAuth.onAuthStateChanged((user) => {
@@ -27,37 +27,26 @@ export default class Home extends Component {
     });
   };
 
-  render () {
+  render() {
     return (
-      <>
-        <div className="flex flex-column px-3 py-4">
-          { this.state.user && (
-            <img src={this.state.photoURL} style={{ width: "100px" }} alt="User" />
-          )}
-
-          <div className="home">
-            <h2>Welcome
-              { this.state.user && (
-                <span>, {this.state.displayName}</span>
-              )}
-            </h2>
-
-            <Link to="/enter">Enter Secret Santa Drawing</Link>
-            <br/>
-            <Link to="/login">Login</Link>
-            <br/>      
-            <Link to="/signup">Sign Up</Link>
-          </div>
-
-          <div>
+      <div className="home">
+        {this.state.user ? (
+          <>
+            <Link className="btn btn-primary my-3" to="/enter">Enter Secret Santa Drawing</Link>
+            
             <button
               className="btn btn-danger"
-              onClick={() => { fireAuth.signOut(); }}>
+              onClick={() => {
+                fireAuth.signOut();
+              }}
+            >
               Sign out
             </button>
-          </div>
-        </div>
-      </>
+          </>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
+      </div>
     );
   }
-};
+}

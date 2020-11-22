@@ -24,7 +24,7 @@ export default class Login extends Component {
 
   render () {
     return (
-      <div className="border rounded p-4">
+      <div>
         { this.state.user && (
           <p>{ this.state.user.displayName }</p>
         )}
