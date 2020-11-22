@@ -1,7 +1,7 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import "firebase/database";
+import firebase from "@firebase/app";
+import "@firebase/auth";
+import "@firebase/firestore";
+import "@firebase/database";
 
 // Init firebase app.
 if (!firebase.apps.length)
@@ -26,3 +26,7 @@ const provider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => {
     fireAuth.signInWithPopup(provider)
 };
+
+export const getGroups = () => {
+  return db.ref('groups')
+}

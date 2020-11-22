@@ -19,7 +19,8 @@ export default class Routes extends Component {
     super(props);
 
     this.state = {
-      user: fireAuth.user
+      user: fireAuth.user,
+      group: ''
     };
   }
 
@@ -34,6 +35,10 @@ export default class Routes extends Component {
     if (this.state.redirect) this.setState({ redirect: false });
   };
 
+  setGroup = (group) => {
+    this.setState({ group });
+  }
+  
   render() {
     return (
       // Root height adjustment
@@ -47,11 +52,16 @@ export default class Routes extends Component {
             <Link to="/">
               <img className="header-img" src="images/header.png" alt="Title" />
             </Link>
-            <h1>{"Group"} - 2020</h1>
+            <h1>{this.state.group} 2020</h1>
           </div>
 
             <Switch>
-              <Route path="/" component={Home} exact />
+              <Route
+                path="/"
+                render={() => {
+                  return <Home setGroup={this.setGroup} />
+                }}
+                exact />
 
               <Route
                 path="/login"
@@ -69,7 +79,7 @@ export default class Routes extends Component {
                 render={() => {
                   // Already logged in
                   if (!this.state.user) return <Redirect to="/" />;
-                  else return <Enter />;
+                  else return <Enter group={this.state.group} />;
                 }}
                 exact
               />

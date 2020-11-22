@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { fireAuth } from "../providers/firebase";
+import { fireAuth, db } from "../providers/firebase";
 
 export default class Home extends Component {
   constructor(props) {
@@ -46,9 +46,14 @@ export default class Home extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.firstName);
-    console.log(this.state.lastName);
-    console.log(this.state.wish);
+    let q = `${this.props.group}-wishes`;
+    db.ref(q).push({
+      'firstName': this.state.firstName,
+      'lastName': this.state.lastName,
+      'wish': this.state.wish
+    }).then(() => {
+      console.log('Letter successfully sent!');
+    });
   }
 
   render() {
@@ -59,13 +64,15 @@ export default class Home extends Component {
             name="firstName"
             placeholder="First Name"
             value={this.state.firstName}
-            onChange={this.handleChange} />
+            onChange={this.handleChange}
+            required />
             
           <input className="form-control mb-3"
             name="lastName"
             placeholder="Last Name"
             value={this.state.lastName}
-            onChange={this.handleChange} />
+            onChange={this.handleChange}
+            required />
 
           <textarea className="form-control mb-3"
             type="text"
